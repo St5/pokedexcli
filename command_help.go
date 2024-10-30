@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func callbackHelp() error {
+func callbackHelp(cnf *config) error {
 	fmt.Println("Welcome to the Pkedex")
 	fmt.Println("List of available commands:")
 	for _, cmd := range getCommands() {
