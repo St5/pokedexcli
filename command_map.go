@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"log"
+	"time"
 )
 
 func callbackMap(cnf *config) error {
@@ -25,8 +25,12 @@ func renderMap(cnf *config, isBack bool) error {
 	if(pageLocalURL == nil && (cnf.prevLocUrl != nil || cnf.nextLocUrl != nil)){
 		return fmt.Errorf("This is %s page", errMsg)
 	}
+	start := time.Now()
 	Locations, err := cnf.poketapiClient.ListLocationAreas(pageLocalURL)
 
+	elapsed := time.Since(start)
+
+	fmt.Printf("Request taken: %v \n", elapsed)
 	if(err != nil){
 		return err
 	}
