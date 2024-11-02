@@ -5,11 +5,11 @@ import (
 	"time"
 )
 
-func callbackMap(cnf *config) error {
+func callbackMap(cnf *config, params ...string) error {
 	return renderMap(cnf, false)
 }
 
-func callbackMapB(cnf *config) error {
+func callbackMapB(cnf *config, params ...string) error {
 	return renderMap(cnf, true)
 }
 

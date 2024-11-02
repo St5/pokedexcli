@@ -10,7 +10,7 @@ import (
 type cliCommand struct {
 	name string
 	description string
-	callback func(*config) error
+	callback func(*config, ...string) error
 }
 
 func startRepl(cfg *config) {
@@ -39,7 +39,10 @@ func startRepl(cfg *config) {
 			continue
 		}
 
-		err := command.callback(cfg)
+		params := cleaned[1:]
+
+
+		err := command.callback(cfg, params...)
 
 		if err != nil {
 			fmt.Printf("Error %v", err)
@@ -71,6 +74,11 @@ return map[string]cliCommand {
 		name: "mapb",
 		description: "Explore the world of Pokemon. Displays the prvious of the names of 20 location areas in the Pokemon world.",
 		callback: callbackMapB,
+	},
+	"explore": {
+		name: "explore",
+		description: "It takes the name of a location area and show a list of all the Pokémon in a given area",
+		callback: callbackExplore,
 	},
 }
 }

@@ -7,52 +7,52 @@ import (
 	"net/http"
 )
 
-func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreaRes, error) {
+func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreaList, error) {
 	endpoint := "/location-area"
 	fullUrl := baseUrl + endpoint
 
-	if(pageUrl != nil){
+	if pageUrl != nil {
 		fullUrl = *pageUrl
 	}
 
 	//check a cache
 	payload, ok := c.cache.Get(fullUrl)
 	if ok {
-		responseLoc := LocationAreaRes {}
+		responseLoc := LocationAreaList{}
 
 		if err := json.Unmarshal(payload, &responseLoc); err != nil {
-			return LocationAreaRes{}, err
+			return LocationAreaList{}, err
 		}
 
 		return responseLoc, nil
 	}
 
-	req,err := http.NewRequest("GET", fullUrl, nil)
-	if(err != nil){
-		return LocationAreaRes{}, err
+	req, err := http.NewRequest("GET", fullUrl, nil)
+	if err != nil {
+		return LocationAreaList{}, err
 	}
 
 	res, err := c.httpClient.Do(req)
 
-	if(err != nil){
-		return LocationAreaRes{}, err
+	if err != nil {
+		return LocationAreaList{}, err
 	}
 
 	defer res.Body.Close()
 
 	if res.StatusCode > 399 {
-		return LocationAreaRes{}, fmt.Errorf("bad status %v", res.StatusCode)
+		return LocationAreaList{}, fmt.Errorf("bad status %v", res.StatusCode)
 	}
 
 	data, err := io.ReadAll(res.Body)
-	if(err != nil){
-		return LocationAreaRes{}, err
+	if err != nil {
+		return LocationAreaList{}, err
 	}
 
-	responseLoc := LocationAreaRes {}
+	responseLoc := LocationAreaList{}
 
 	if err = json.Unmarshal(data, &responseLoc); err != nil {
-		return LocationAreaRes{}, err
+		return LocationAreaList{}, err
 	}
 
 	c.cache.Add(fullUrl, data)
