@@ -8,15 +8,16 @@ import (
 
 type config struct {
 	poketapiClient pokeapi.Client
-	nextLocUrl *string
-	prevLocUrl *string
+	nextLocUrl     *string
+	prevLocUrl     *string
+	caughtPokemons map[string]pokeapi.Pokemon
 }
 
-func main(){
+func main() {
 	cfg := config{
 		poketapiClient: pokeapi.NewClient(time.Minute),
-
+		caughtPokemons: map[string]pokeapi.Pokemon{},
 	}
-	
+
 	startRepl(&cfg)
 }
