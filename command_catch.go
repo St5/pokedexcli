@@ -20,7 +20,7 @@ func callbackCatch(cnf *config, params ...string) error {
 			continue
 		}
 		start := time.Now()
-		fmt.Printf("Throwing a Pokeball at %s \n", pockemonName)
+		
 
 		Pokemon, err := cnf.poketapiClient.GetPokemonInfo(pockemonName)
 
@@ -28,6 +28,8 @@ func callbackCatch(cnf *config, params ...string) error {
 			fmt.Println("We don`t know such creature")
 			return err
 		}
+
+		fmt.Printf("Throwing a Pokeball at %s (%d) \n", pockemonName, Pokemon.BaseExperience)
 
 		elapsed := time.Since(start)
 		fmt.Printf("Request taken: %v \n", elapsed)
